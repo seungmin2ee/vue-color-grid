@@ -2,7 +2,9 @@
   <aside class="column gap">
     <div>import</div>
     <div class="color-box">
-      <ColorChip v-for="(color, index) in colors" :key="index" :color="color" />
+      <template v-for="(color, index) in colors" :key="index">
+        <ColorChip :color="color" />
+      </template>
     </div>
   </aside>
 </template>

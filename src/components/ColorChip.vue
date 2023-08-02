@@ -1,11 +1,15 @@
 <template>
-  <div :class="`color-chip color-${color}`" draggable="true"></div>
+  <div :class="`color-chip color-${color}`" draggable="true" @dragstart="startDrag($event, color)"></div>
 </template>
 
 <script setup>
 const props = defineProps({
   color: String
 })
+
+const startDrag = (event, color) => {
+  event.dataTransfer.setData('color', color)
+}
 </script>
 
 <style scoped>
@@ -32,7 +36,7 @@ const props = defineProps({
   background-color: gold;
 }
 .color-orchid {
-  background-color: darkorchid;
+  background-color: orchid;
 }
 .color-purple {
   background-color: purple;
