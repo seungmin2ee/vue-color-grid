@@ -7,18 +7,18 @@
     </div>
     <div class="grid" :style="{'grid-template-rows': `repeat(${rows}, 1fr)`, 'grid-template-columns': `repeat(${columns}, 1fr)`}">
       <!-- <div v-for="i in boxs" :key="i" class="drop-box" :style="{width: `${boxWidth}px`}" @drop.prevent="onDrop($event)" @dragenter.prevent @dragover.prevent></div> -->
-      <div v-for="(item, index) in gridInfo.flat()" :key="index" class="drop-box" :style="{width: `${boxWidth}px`, background: item}" @drop.prevent="onDrop($event)" @dragenter.prevent @dragover.prevent></div>
+      <div v-for="(item, index) in gridInfo.flat()" :key="index" class="drop-box" :style="{width: `${boxWidth}px`, background: item}" @drop.prevent="onDrop($event, index)" @dragenter.prevent @dragover.prevent></div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 // gridInfo.length -> row개수
 // gridInfo[0].length -> col개수
 
-const gridInfo = [['transparent']]
+let gridInfo = [['transparent']]
 const rows = ref(gridInfo?.length || 1)
 const columns = ref(gridInfo[0]?.length || 1)
 // const boxs = computed(() => columns.value * rows.value)
@@ -47,10 +47,23 @@ watch(columns, (next, prev) => {
   }
 })
 
-const onDrop = (event) => {
+const onDrop = (event, index) => {
+  const newArr = []
   const color = event.dataTransfer.getData('color')
+  const rows = gridInfo.length
+  const columns = gridInfo[0].length
+  const flatArr = gridInfo.flat()
 
-  console.log(event.target)
+  flatArr.splice(index, 1, color)
+
+  for(let i = 0; i < rows; i++) {
+    newArr.push(flatArr.slice(i * columns, columns * (i+1)))
+  }
+
+  gridInfo = newArr
+
+  console.log(gridInfo)
+  
   event.target.style.backgroundColor = color
 }
 </script>
