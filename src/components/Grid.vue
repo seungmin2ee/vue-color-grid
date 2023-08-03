@@ -1,24 +1,29 @@
 <template>
-  <div class="col column items-center pa-lg gap-xl">
-    <div class="row justify-center items-center gap">
-      <input v-model="rows" type="text" placeholder="rows">
-      *
-      <input v-model="columns" type="text" placeholder="columns">
+  <div class="col column items-center">
+    <div class="col column items-center pa-lg gap-xl">
+      <div class="row justify-center items-center gap">
+        <input v-model="rows" type="text" placeholder="rows">
+        *
+        <input v-model="columns" type="text" placeholder="columns">
+      </div>
+      <div class="grid" :style="{'grid-template-rows': `repeat(${rows}, 1fr)`, 'grid-template-columns': `repeat(${columns}, 1fr)`}">
+        <!-- <div v-for="i in boxs" :key="i" class="drop-box" :style="{width: `${boxWidth}px`}" @drop.prevent="onDrop($event)" @dragenter.prevent @dragover.prevent></div> -->
+        <div v-for="(item, index) in gridInfo.flat()" :key="index" class="drop-box" :style="{width: `${boxWidth}px`, background: item}" @drop.prevent="onDrop($event, index)" @dragenter.prevent @dragover.prevent></div>
+      </div>
     </div>
-    <div class="grid" :style="{'grid-template-rows': `repeat(${rows}, 1fr)`, 'grid-template-columns': `repeat(${columns}, 1fr)`}">
-      <!-- <div v-for="i in boxs" :key="i" class="drop-box" :style="{width: `${boxWidth}px`}" @drop.prevent="onDrop($event)" @dragenter.prevent @dragover.prevent></div> -->
-      <div v-for="(item, index) in gridInfo.flat()" :key="index" class="drop-box" :style="{width: `${boxWidth}px`, background: item}" @drop.prevent="onDrop($event, index)" @dragenter.prevent @dragover.prevent></div>
-    </div>
+    <Export :grid="gridInfoRef" />
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
+import Export from './Export.vue'
 
 // gridInfo.length -> row개수
 // gridInfo[0].length -> col개수
 
 let gridInfo = [['transparent']]
+const gridInfoRef = ref(gridInfo)
 const rows = ref(gridInfo?.length || 1)
 const columns = ref(gridInfo[0]?.length || 1)
 // const boxs = computed(() => columns.value * rows.value)
@@ -61,9 +66,8 @@ const onDrop = (event, index) => {
   }
 
   gridInfo = newArr
+  gridInfoRef.value = newArr
 
-  console.log(gridInfo)
-  
   event.target.style.backgroundColor = color
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
-  <aside class="column gap">
-    <div>import</div>
+  <aside class="column gap-lg">
+    <Import />
     <div class="color-box">
       <template v-for="(color, index) in colors" :key="index">
         <ColorChip :color="color" />
@@ -11,6 +11,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import Import from './Import.vue'
 import ColorChip from './ColorChip.vue'
 
 const colors = ref(['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'orchid'])
