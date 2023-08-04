@@ -1,6 +1,7 @@
 <template>
   <div class="row justify-center">
     <label for="file" class="file-label">
+      <font-awesome-icon icon="file-import" />
       Import
       <input ref="inputFile" type="file" id="file" @change="handleImport()">
     </label>
@@ -35,9 +36,16 @@ const handleImport = () => {
   background-color: #ccc;
   border-radius: 8px;
   text-align: center;
+  background-color: #00ADB5;
+  font-size: 18px;
+  font-weight: bold;
+  color: #EEEEEE;
   cursor: pointer;
 }
-
+.file-label:hover {
+  color: #eee;
+  background-color: #3FC1C9;
+}
 #file {
   display: none;
 }

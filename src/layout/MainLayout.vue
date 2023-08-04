@@ -10,9 +10,11 @@ import MainPage from '../pages/MainPage.vue'
 
 <style scoped>
 .container {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100vh;
   background-color: #fafafa;
+  overflow: hidden;
 }
 </style>

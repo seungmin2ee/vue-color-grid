@@ -25,7 +25,7 @@ import Export from './Export.vue'
 // gridInfo[0].length -> col개수
 
 // let gridInfo = [['transparent']]
-const gridInfoRef = ref([['transparent']])
+const gridInfoRef = ref([['white']])
 const rows = ref(1)
 const columns = ref(1)
 // const boxs = computed(() => columns.value * rows.value)
@@ -40,7 +40,7 @@ watch(tiles, () => {
 
   rows.value = originalTile.length
   columns.value = originalTile[0].length
-  
+
   nextTick(() => {
     gridInfoRef.value = originalTile
   })
@@ -53,7 +53,7 @@ watch(rows, (next, prev) => {
     gridInfoRef.value.push([])
     
     for(let j = 0; j < columns.value; j++) {
-      gridInfoRef.value[i].push('tranparent')
+      gridInfoRef.value[i].push('white')
     }
   }
 })
@@ -63,7 +63,7 @@ watch(columns, (next, prev) => {
     gridInfoRef.value[i].splice(0, gridInfoRef.value[i].length)
 
     for(let j = 0; j < next; j++) {
-      gridInfoRef.value[i].push('transparent')
+      gridInfoRef.value[i].push('white')
     }
   }
 })
@@ -90,6 +90,8 @@ const onDrop = (event, index) => {
 
 <style scoped>
 input {
+  background-color: #fff;
+  border-radius: 4px;
   border: 1px solid #ddd;
   padding: var(--space-md);
   outline: none;
@@ -98,10 +100,12 @@ input {
   width: 900px;
   height: 900px;
   display: grid;
-  gap: var(--space-sm);
+  /* gap: var(--space-sm); */
 }
 .drop-box {
-  aspect-ratio: 1 / 1;
+  background-color: #fff;
   border: 1px solid #ddd;
+  box-shadow: 0 0 20px 0px rgba(0, 0, 0, .1);
+  aspect-ratio: 1 / 1;
 }
 </style>
