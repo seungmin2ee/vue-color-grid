@@ -8,17 +8,20 @@
 </template>
 
 <script setup>
+import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
+import { useTileStore } from '../store'
 
 const inputFile = ref()
-const fileContent = ref()
+const tileStore = useTileStore()
+const { tiles } = storeToRefs(tileStore)
 
 const handleImport = () => {
   const file = inputFile.value.files[0]
   const fileReader = new FileReader()
   
   fileReader.onload = (() => {
-    fileContent.value = fileReader.result
+    tiles.value = fileReader.result
   })
   
   fileReader.readAsText(file)

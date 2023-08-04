@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { onMounted, toRaw, watch } from 'vue'
+import { onMounted } from 'vue'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/vs2015.css'
 
@@ -29,7 +29,7 @@ const handleExport = (code) => {
   let element = document.createElement('a')
 
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(code)))
-  element.setAttribute('download', '타일이다.js')
+  element.setAttribute('download', '타일이다.json')
 
   element.style.display = 'none'
   document.body.appendChild(element)
