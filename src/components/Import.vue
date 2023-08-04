@@ -3,7 +3,7 @@
     <label for="file" class="file-label">
       <font-awesome-icon icon="file-import" />
       Import
-      <input ref="inputFile" type="file" id="file" @change="handleImport()">
+      <input ref="inputFile" type="file" id="file" @change="handleImport">
     </label>
   </div>
 </template>

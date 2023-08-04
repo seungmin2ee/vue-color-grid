@@ -37,7 +37,7 @@ const handleExport = (code) => {
   let element = document.createElement('a')
 
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(code)))
-  element.setAttribute('download', '타일이다.json')
+  element.setAttribute('download', '타일.json')
 
   element.style.display = 'none'
   document.body.appendChild(element)

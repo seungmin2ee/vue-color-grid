@@ -3,12 +3,13 @@
     <div class="col column items-center pa-lg gap-xl">
       <div class="row justify-center items-center gap">
         <input v-model="rows" type="text" placeholder="rows">
-        *
+        <font-awesome-icon icon="xmark" />
         <input v-model="columns" type="text" placeholder="columns">
       </div>
-      <div class="grid" :style="{'grid-template-rows': `repeat(${rows}, 1fr)`, 'grid-template-columns': `repeat(${columns}, 1fr)`}">
-        <!-- <div v-for="i in boxs" :key="i" class="drop-box" :style="{width: `${boxWidth}px`}" @drop.prevent="onDrop($event)" @dragenter.prevent @dragover.prevent></div> -->
-        <div v-for="(item, index) in gridInfoRef.flat()" :key="index" class="drop-box" :style="{width: `${boxWidth}px`, background: item}" @drop.prevent="onDrop($event, index)" @dragenter.prevent @dragover.prevent></div>
+      <div class="grid" :class="{'grid-height': gridSize}" :style="{'grid-template-rows': `repeat(${rows}, 1fr)`, 'grid-template-columns': `repeat(${columns}, 1fr)`}">
+        <template v-for="(item, index) in gridInfoRef.flat()" :key="index">
+          <div class="drop-box" :style="{width: `${boxWidth}px`, background: item}" @drop.prevent="onDrop($event, index)" @dragenter.prevent @dragover.prevent></div>
+        </template>
       </div>
     </div>
     <Export :grid="gridInfoRef" />
@@ -23,14 +24,16 @@ import Export from './Export.vue'
 
 // gridInfo.length -> row개수
 // gridInfo[0].length -> col개수
+// row가 크면 height을 주고 col이 크면 width를 주고
 
-// let gridInfo = [['transparent']]
 const gridInfoRef = ref([['white']])
 const rows = ref(1)
 const columns = ref(1)
-// const boxs = computed(() => columns.value * rows.value)
-// const boxWidth = computed(() => 900 / rows.value)
-const boxWidth = computed(() => 900 / rows)
+const boxWidth = computed(() => {
+  return rows.value >= columns.value ? 900 / rows.value : 900 / columns.value
+})
+const gridSize = ref(rows.value <= columns.value)
+
 
 const tileStore = useTileStore()
 const { tiles } = storeToRefs(tileStore)
@@ -81,7 +84,6 @@ const onDrop = (event, index) => {
     newArr.push(flatArr.slice(i * columns, columns * (i+1)))
   }
 
-  // gridInfo = newArr
   gridInfoRef.value = newArr
 
   event.target.style.backgroundColor = color
@@ -94,18 +96,24 @@ input {
   border-radius: 4px;
   border: 1px solid #ddd;
   padding: var(--space-md);
+  text-align: center;
   outline: none;
 }
 .grid {
-  width: 900px;
-  height: 900px;
   display: grid;
-  /* gap: var(--space-sm); */
+  justify-items: center;
+  align-items: center;
+  width: 900px;
+  height: auto;
+}
+.grid-height {
+  width: auto;
+  height: 900px;
 }
 .drop-box {
   background-color: #fff;
   border: 1px solid #ddd;
   box-shadow: 0 0 20px 0px rgba(0, 0, 0, .1);
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1;
 }
 </style>
